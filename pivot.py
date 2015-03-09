@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# Usage: cat file.csv | python pivot.py
 import pandas as pd
 import sys
 import numpy as np
