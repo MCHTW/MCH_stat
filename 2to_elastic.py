@@ -5,6 +5,7 @@ from elasticsearch import Elasticsearch
 
 df = pd.read_csv(u'20150101-20150301 處置醫囑開單比例.csv')
 df.columns = ["ID","YM","Date","C1", "C2"]
+df = df.fillna(0)
 es = Elasticsearch("192.168.2.59:9200")
 
 df['@timestamp'] = pd.to_datetime(df['Date'], format='%Y%m%d')
