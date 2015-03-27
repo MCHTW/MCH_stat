@@ -1,11 +1,16 @@
+# coding: utf-8
 import pandas as pd
+import json
 from elasticsearch import Elasticsearch
 
-df1 = pd.read_csv('latest_by_day.csv')
-df1['@timestamp'] = pd.to_datetime(df1['Date'], format='%Y%m%d')
-records=df1.to_json(orient = "records")
-records
-data = {}
-data["data"] = records
+df = pd.read_csv(u'20150101-20150301 處置醫囑開單比例.csv')
+df.columns = ["ID","YM","Date","C1", "C2"]
+df = df.fillna(0)
 es = Elasticsearch("192.168.2.59:9200")
-es.index("order7","txt",data)
+
+df['@timestamp'] = pd.to_datetime(df['Date'], format='%Y%m%d')
+tmp=df.to_json(orient = "records",date_format='iso')
+df_json= json.loads(tmp)
+for doc in df_json:
+    print doc
+    es.index("order8","txt",doc)
