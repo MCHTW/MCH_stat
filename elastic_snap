@@ -1,0 +1,15 @@
+# Setting snapshot directiory
+
+curl -XPUT 'http://localhost:9200/_snapshot/my_backup' -d '{
+    "type": "fs",
+            "settings": {
+	    	        "location": "/tmp/elastic_backups/",
+				        "compress": true
+							    }
+							    	    }'
+
+# Let the .kibana index setting closed
+curl -XPOST 'localhost:9200/.kibana/_close'
+
+# Restore the index
+curl -XPOST "localhost:9200/_snapshot/my_backup/snapshot_04-04/_restore"
